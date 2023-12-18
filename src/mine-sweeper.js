@@ -1,4 +1,4 @@
-const { NotImplementedError } = require('../extensions/index.js');
+const { NotImplementedError } = require("../extensions/index.js");
 
 /**
  * In the popular Minesweeper game you have a board with some mines and those cells
@@ -23,11 +23,95 @@ const { NotImplementedError } = require('../extensions/index.js');
  *  [1, 1, 1]
  * ]
  */
-function minesweeper(/* matrix */) {
-  throw new NotImplementedError('Not implemented');
+function minesweeper(matrix) {
+  // throw new NotImplementedError('Not implemented');
   // remove line with error and write your code here
+
+  const res = matrix.map((row, rowIndex, rowArr) => {
+    const newEl = row.map((cell, cellIndex, cellArr) => {
+      let cnt = 0;
+
+      /* TOP ROW */
+      if (rowIndex === 0) {
+        if (cellIndex === 0) {
+          // First cell
+          if (cellArr[cellIndex + 1]) cnt += 1;
+          if (rowArr[rowIndex + 1][cellIndex]) cnt += 1;
+          if (rowArr[rowIndex + 1][cellIndex + 1]) cnt += 1;
+        } else if (cellIndex === cellArr.length - 1) {
+          // Last cell
+          if (cellArr[cellIndex - 1]) cnt += 1;
+          if (rowArr[rowIndex + 1][cellIndex]) cnt += 1;
+          if (rowArr[rowIndex + 1][cellIndex - 1]) cnt += 1;
+        } else {
+          // Other
+          if (cellArr[cellIndex + 1]) cnt += 1;
+          if (cellArr[cellIndex - 1]) cnt += 1;
+          if (rowArr[rowIndex + 1][cellIndex]) cnt += 1;
+          if (rowArr[rowIndex + 1][cellIndex - 1]) cnt += 1;
+          if (rowArr[rowIndex + 1][cellIndex + 1]) cnt += 1;
+        }
+        return cnt;
+      }
+
+      /* BOTTOM ROW */
+      if (rowIndex === rowArr.length - 1) {
+        if (cellIndex === 0) {
+          // First cell
+          if (cellArr[cellIndex + 1]) cnt += 1;
+          if (rowArr[rowIndex - 1][cellIndex]) cnt += 1;
+          if (rowArr[rowIndex - 1][cellIndex + 1]) cnt += 1;
+        } else if (cellIndex === cellArr.length - 1) {
+          // Last cell
+          if (cellArr[cellIndex - 1]) cnt += 1;
+          if (rowArr[rowIndex - 1][cellIndex]) cnt += 1;
+          if (rowArr[rowIndex - 1][cellIndex - 1]) cnt += 1;
+        } else {
+          // Other
+          if (cellArr[cellIndex + 1]) cnt += 1;
+          if (cellArr[cellIndex - 1]) cnt += 1;
+          if (rowArr[rowIndex - 1][cellIndex]) cnt += 1;
+          if (rowArr[rowIndex - 1][cellIndex - 1]) cnt += 1;
+          if (rowArr[rowIndex - 1][cellIndex + 1]) cnt += 1;
+        }
+        return cnt;
+      }
+
+      /* OTHER ROW */
+      if (cellIndex === 0) {
+        // First cell
+        if (cellArr[cellIndex + 1]) cnt += 1;
+        if (rowArr[rowIndex - 1][cellIndex]) cnt += 1;
+        if (rowArr[rowIndex - 1][cellIndex + 1]) cnt += 1;
+        if (rowArr[rowIndex + 1][cellIndex]) cnt += 1;
+        if (rowArr[rowIndex + 1][cellIndex + 1]) cnt += 1;
+      } else if (cellIndex === cellArr.length - 1) {
+        // Last cell
+        if (cellArr[cellIndex - 1]) cnt += 1;
+        if (rowArr[rowIndex - 1][cellIndex]) cnt += 1;
+        if (rowArr[rowIndex - 1][cellIndex - 1]) cnt += 1;
+        if (rowArr[rowIndex + 1][cellIndex]) cnt += 1;
+        if (rowArr[rowIndex + 1][cellIndex - 1]) cnt += 1;
+      } else {
+        // Other
+        if (cellArr[cellIndex + 1]) cnt += 1;
+        if (cellArr[cellIndex - 1]) cnt += 1;
+        if (rowArr[rowIndex - 1][cellIndex]) cnt += 1;
+        if (rowArr[rowIndex - 1][cellIndex + 1]) cnt += 1;
+        if (rowArr[rowIndex - 1][cellIndex - 1]) cnt += 1;
+        if (rowArr[rowIndex + 1][cellIndex]) cnt += 1;
+        if (rowArr[rowIndex + 1][cellIndex - 1]) cnt += 1;
+        if (rowArr[rowIndex + 1][cellIndex + 1]) cnt += 1;
+      }
+
+      return cnt;
+    });
+    return newEl;
+  });
+
+  return res;
 }
 
 module.exports = {
-  minesweeper
+  minesweeper,
 };
